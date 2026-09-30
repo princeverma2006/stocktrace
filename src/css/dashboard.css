@@ -1,0 +1,291 @@
+* {  margin: 0;  padding: 0;  box-sizing: border-box;
+    
+}
+
+
+body {  width: 100%;  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #151923;
+  overflow: hidden;
+}
+
+
+.dashboard {  width: 100%;  height: 100vh;
+  display: flex;
+}
+
+
+.main-content {  flex: 1;
+  height: 100vh;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+
+
+.top-header {  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+.top-header h1 {  font-size: 21px;
+  margin-bottom: 5px;
+}
+
+
+.top-header p {  font-size: 13px;
+  color: #555;
+}
+
+
+.date {  background: white;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 9px 16px;
+  font-size: 13px;
+}
+
+
+
+.stats {  display: grid;
+  grid-template-columns:      repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+
+.stat-card {  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+  padding: 15px;
+  min-height: 110px;
+  box-shadow:      0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+
+.stat-title {  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+
+
+.stat-card h2 {  font-size: 27px;
+  margin-bottom: 4px;
+}
+
+
+.stat-card p {  font-size: 12px;
+  color: #555;
+}
+
+
+.green-icon {  color: #3b8b60;
+  font-size: 13px;
+}
+
+
+.red-icon {  color: #b64141;
+  font-size: 13px;
+}
+
+
+.stat-card:nth-child(3) h2,
+.stat-card:nth-child(4) h2 {  color: #a63c3c;
+}
+
+
+/*  
+   LOWER GRID
+  */
+
+.dashboard-grid {  display: grid;
+  grid-template-columns:      2fr 1fr;
+  gap: 15px;
+}
+
+
+.panel {  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+  padding: 16px;
+  box-shadow:      0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+
+.panel-header {  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+
+.panel-header h3 {  font-size: 14px;
+}
+
+
+.panel-header span {  font-size: 12px;
+  color: #666;
+}
+
+
+/*  
+   PRODUCT TABLE
+  */
+
+.product-table {  width: 100%;
+}
+
+
+.table-header,
+.product-row {  display: grid;
+  grid-template-columns:      1.4fr      1.1fr      .7fr      .8fr      1fr      1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.table-header {  background: #f5f7fa;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+
+.product-row {  padding: 13px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+}
+
+
+.product-row:last-child {  border-bottom: none;
+}
+
+
+.product-name {  font-weight: bold;
+}
+
+
+.status {  display: inline-block;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+
+.status.good {  background: #e4f5e9;
+  color: #32824f;
+}
+
+
+.status.low {  background: #fff1d9;
+  color: #9a711e;
+}
+
+
+.status.out {  background: #ffe3e3;
+  color: #b43d3d;
+}
+
+
+/*  
+   RIGHT SIDE
+  */
+
+.right-panels {  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+/*  
+   LOW STOCK
+  */
+
+.low-stock-item {  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 43px;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+}
+
+
+.low-stock-item:last-child {  border-bottom: none;
+}
+
+
+.low-product-name {  font-weight: 500;
+}
+
+
+.low-quantity {  font-weight: bold;
+}
+
+
+.warning-icon {  width: 23px;  height: 23px;
+  display: flex;
+  align-items: center;  justify-content: center;
+  border-radius: 5px;
+  background: #fff1d9;
+  color: #c88725;
+}
+
+
+.no-data {  color: #777;
+  font-size: 12px;
+  padding: 15px 0;
+}
+
+
+/*  
+   SUMMARY
+  */
+
+.summary-row {  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+}
+
+
+.summary-row:last-child {  border-bottom: none;
+}
+
+
+.summary-row strong {  font-size: 15px;
+}
+
+
+/*  
+   RESPONSIVE
+  */
+
+@media (max-width: 1000px) {
+  .sidebar {      width: 180px;  }
+  .stats {      grid-template-columns:          repeat(2, 1fr);  }
+  .dashboard-grid {      grid-template-columns: 1fr;  }
+
+}
+
+
+@media (max-width: 650px) {
+  body {      overflow: auto;  }
+  .dashboard {      height: auto;      flex-direction: column;  }
+  .sidebar {      width: 100%;      height: auto;  }
+  .main-content {      height: auto;  }
+  .stats {      grid-template-columns: 1fr;  }
+  .top-header {      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;  }
+
+}
