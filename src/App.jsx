@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Landingpage from './pages/landingpage';
+import Landingpage from './pages/LandingPage';
 import Loginpage from './pages/LoginPage';
 import Deshboard from './pages/deshboard';
 import Product from './pages/Product';
@@ -13,7 +13,6 @@ import './App.css'
 function App() {
  
   return (
-   <>
     <Routes>
       <Route path="/" element={<Landingpage/>}/>
       <Route path="/login" element={<Loginpage/>}/>
@@ -29,8 +28,6 @@ function App() {
       <Route path="*" element={<Navigate to="/" replace />} />
 
     </Routes>
-    
-    </>
   );
 }
 

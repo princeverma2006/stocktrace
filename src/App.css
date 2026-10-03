@@ -1,0 +1,248 @@
+:root {
+    color-scheme: dark;
+}
+
+/* Dark theme for app pages */
+body:not(.landing-route) {
+    background: #0e141b !important;
+    color: #e7edf2;
+}
+
+body:not(.landing-route) * {
+    color: #e7edf2;
+}
+
+body:not(.landing-route) .sidebar {
+    background: #111d2a;
+}
+
+body:not(.landing-route) .date,
+body:not(.landing-route) .stat-card,
+body:not(.landing-route) .panel,
+body:not(.landing-route) .product-panel,
+body:not(.landing-route) .form-container,
+body:not(.landing-route) .content-card,
+body:not(.landing-route) .history-card,
+body:not(.landing-route) .report-card,
+body:not(.landing-route) .form-card,
+body:not(.landing-route) .transactions-card,
+body:not(.landing-route) .login-menu,
+body:not(.landing-route) .login-card {
+    background: #171f28;
+    border-color: #303d49;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+
+body:not(.landing-route) input,
+body:not(.landing-route) select,
+body:not(.landing-route) textarea,
+body:not(.landing-route) .search-box,
+body:not(.landing-route) #dateFilter {
+    background-color: #111922;
+    border-color: #303d49;
+    color: #e7edf2;
+}
+
+body:not(.landing-route) input::placeholder,
+body:not(.landing-route) textarea::placeholder {
+    color: #9cabb8;
+}
+
+body:not(.landing-route) table,
+body:not(.landing-route) .table-container {
+    border-color: #303d49;
+}
+
+body:not(.landing-route) thead,
+body:not(.landing-route) .table-header {
+    background: #1d2934;
+}
+
+body:not(.landing-route) th,
+body:not(.landing-route) td,
+body:not(.landing-route) .product-row,
+body:not(.landing-route) .low-stock-item {
+    border-color: #303d49;
+}
+
+body:not(.landing-route) tbody tr:hover {
+    background: #202d38;
+}
+
+body:not(.landing-route) .tab,
+body:not(.landing-route) .action-btn,
+body:not(.landing-route) .back-btn,
+body:not(.landing-route) .pagination button {
+    background: #1d2934;
+    border-color: #303d49;
+}
+
+body:not(.landing-route) .tab.active,
+body:not(.landing-route) .pagination button.current,
+body:not(.landing-route) .add-product-btn,
+body:not(.landing-route) .save-btn,
+body:not(.landing-route) .submit-btn,
+body:not(.landing-route) .generate-btn,
+body:not(.landing-route) .login-button {
+    color: #fff;
+}
+
+body:not(.landing-route) .stat-card p,
+body:not(.landing-route) .panel-header span,
+body:not(.landing-route) .table-footer,
+body:not(.landing-route) .empty-message,
+body:not(.landing-route) .no-products,
+body:not(.landing-route) #stockInfo,
+body:not(.landing-route) .footer {
+    color: #9cabb8;
+}
+
+body:not(.landing-route) .status.good,
+body:not(.landing-route) .status.low,
+body:not(.landing-route) .status.out,
+body:not(.landing-route) .status.critical {
+    color: #fff;
+}
+
+/* Dark theme for the landing page */
+body.landing-route {
+    color-scheme: dark;
+    background: #0c131a !important;
+    color: #e5edf2;
+}
+
+body.landing-route .landing-page {
+    --ink: #e5edf2;
+    --muted: #a1b0bb;
+    --blue: #62a9f5;
+    --blue-deep: #3988d7;
+    --cyan: #4cc7c4;
+    --mint: #203b38;
+    --line: #2d3c47;
+    --paper: #151f28;
+    background: #0c131a;
+    color: #e5edf2;
+}
+
+body.landing-route .landing-page h1,
+body.landing-route .landing-page h2,
+body.landing-route .landing-page h3,
+body.landing-route .landing-page h4,
+body.landing-route .landing-page p,
+body.landing-route .landing-page li,
+body.landing-route .landing-page a,
+body.landing-route .landing-page span,
+body.landing-route .landing-page strong,
+body.landing-route .landing-page b,
+body.landing-route .landing-page small,
+body.landing-route .landing-page label {
+    color: #e5edf2 !important;
+}
+
+body.landing-route .landing-page .brand-accent,
+body.landing-route .landing-page .hero h1 span,
+body.landing-route .landing-page .section-title span,
+body.landing-route .landing-page .text-link,
+body.landing-route .landing-page .nav-links a:hover,
+body.landing-route .landing-page .nav-links a.is-active,
+body.landing-route .landing-page .footer-nav a:hover {
+    color: #62a9f5 !important;
+}
+
+body.landing-route .site-header,
+body.landing-route .site-header.is-scrolled {
+    border-color: #2d3c47;
+    background: rgba(15, 23, 31, .92);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, .22);
+}
+
+body.landing-route .hero {
+    background-color: #101922;
+    background-image: radial-gradient(#263b49 0.7px, transparent 0.7px);
+}
+
+body.landing-route .hero::before {
+    background: linear-gradient(90deg, rgba(16, 25, 34, .99) 0%, rgba(16, 25, 34, .96) 47%, rgba(16, 25, 34, .78) 100%);
+}
+
+body.landing-route .landing-page section:not(.hero) {
+    border-color: #2d3c47;
+    background: #0c131a;
+}
+
+body.landing-route .landing-page .preview-chart-card,
+body.landing-route .landing-page .preview-float-card,
+body.landing-route .landing-page .why-card,
+body.landing-route .landing-page .why-card-heading,
+body.landing-route .landing-page .why-card-footer,
+body.landing-route .landing-page .comparison-card,
+body.landing-route .landing-page .before-card,
+body.landing-route .landing-page .after-card,
+body.landing-route .landing-page .card-grid,
+body.landing-route .landing-page .info-card,
+body.landing-route .landing-page .card-icon,
+body.landing-route .landing-page .card-arrow,
+body.landing-route .landing-page .feature-card,
+body.landing-route .landing-page .dashboard-preview,
+body.landing-route .landing-page .preview-metric,
+body.landing-route .landing-page .preview-products {
+    border-color: #2d3c47;
+    background: #151f28;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, .24);
+}
+
+body.landing-route .site-header,
+body.landing-route .landing-page .nav-login,
+body.landing-route .landing-page .hero-kicker,
+body.landing-route .landing-page .button-secondary,
+body.landing-route .landing-page .preview-live,
+body.landing-route .landing-page .why-card li > span {
+    border-color: #2d3c47;
+    background-color: #1c2933;
+}
+
+body.landing-route .landing-page .statistics-section,
+body.landing-route .landing-page .about-section,
+body.landing-route .landing-page .objectives-section,
+body.landing-route .landing-page .features-section,
+body.landing-route .landing-page .workflow-section,
+body.landing-route .landing-page .cta-section,
+body.landing-route .landing-page .site-footer {
+    background-color: #0c131a;
+}
+
+body.landing-route .landing-page .preview-topbar,
+body.landing-route .landing-page .preview-product-row,
+body.landing-route .landing-page .why-card-heading,
+body.landing-route .landing-page .why-card-footer {
+    border-color: #2d3c47;
+}
+
+body.landing-route .landing-page .button-primary {
+    background: #1769c2;
+}
+
+body.landing-route .landing-page .status-pulse,
+body.landing-route .landing-page .preview-live i {
+    background-color: #45c49a;
+}
+
+body.landing-route .landing-page .proof-avatars i,
+body.landing-route .landing-page .preview-brand-mark,
+body.landing-route .landing-page .preview-avatar,
+body.landing-route .landing-page .metric-icon,
+body.landing-route .landing-page .product-swatch,
+body.landing-route .landing-page .float-icon,
+body.landing-route .landing-page .why-icon {
+    background-color: #233642;
+}
+
+body.landing-route .landing-page .chart-area,
+body.landing-route .landing-page .chart-line,
+body.landing-route .landing-page .preview-chart circle {
+    stroke: #62a9f5;
+}
+
+body.landing-route .landing-page .chart-area {
+    fill: url(#chart-fill);
+}

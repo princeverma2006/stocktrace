@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Sidebar from './sidebar'
 import '../css/addproduct.css'
 
@@ -15,7 +14,7 @@ const AddProduct = () => {
         {/*page title*/}
         <div className='page-title'>
          <button
-                class="back-btn"
+                className="back-btn"
                 onClick={() => navigate("/products")}>
                 ←
             </button>
@@ -148,19 +147,19 @@ const AddProduct = () => {
                 </div>
 
                   {/*buttons*/}
-                 <div class="form-buttons">
+                 <div className="form-buttons">
                     <button
                         type="button"
-                        class="cancel-btn"
+                        className="cancel-btn"
                         onClick={()=>navigate("/products")}>
                         Cancel
                     </button>
 
-                     <div class="form-buttons">
+                     <div className="form-buttons">
 
                     <button
                         type="submit"
-                        class="save-btn">
+                        className="save-btn">
                         Save Product
                     </button>
                 </div>

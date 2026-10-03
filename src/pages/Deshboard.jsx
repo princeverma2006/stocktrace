@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom";
-import logo from '../assets/logo.png'
 import '../css/dashboard.css'
 import Sidebar from "./sidebar";
 
 
 function Deshboard() {
   return (
-   <>
 <div className="dashboard">
 
    <Sidebar/>
@@ -148,7 +145,6 @@ function Deshboard() {
     </main>
 </div>
 
-</>
   )
 }
 

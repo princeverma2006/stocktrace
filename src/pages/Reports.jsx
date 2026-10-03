@@ -1,16 +1,14 @@
-import { Link } from "react-router-dom";
 import Sidebar from "./sidebar";
 import '../css/report.css'
 
 function Reports() {
   return (
-  <>
   <div className="deshboard">
     <Sidebar/>
 
     {/*MAIN CONTENT*/}
 
-   <main class="main-content">
+    <main className="main-content">
 
 
         <h1>
@@ -19,12 +17,12 @@ function Reports() {
 
 
 
-        <div class="report-card">
+        <div className="report-card">
 
 
              {/*REPORT TYPE*/}
 
-            <div class="top-report-type">
+            <div className="top-report-type">
 
                 <label>
                     Report Type
@@ -53,10 +51,10 @@ function Reports() {
 
              {/*FILTER ROW*/}
 
-            <div class="filter-row">
+            <div className="filter-row">
 
 
-                <div class="filter-item">
+                <div className="filter-item">
 
                     <label>
                         Report Type
@@ -75,7 +73,7 @@ function Reports() {
 
 
 
-                <div class="filter-item">
+                <div className="filter-item">
 
                     <label>
                         From Date
@@ -91,7 +89,7 @@ function Reports() {
 
 
 
-                <div class="filter-item">
+                <div className="filter-item">
 
                     <label>
                         To Date
@@ -110,7 +108,7 @@ function Reports() {
                 <button
                     type="button"
                     id="generateBtn"
-                    class="generate-btn"
+                    className="generate-btn"
                     onclick="generateReport()">
 
                     Generate Report
@@ -121,7 +119,7 @@ function Reports() {
 
                 <button
                     id="exportBtn"
-                    class="export-btn">
+                    className="export-btn">
 
                     Export CSV
 
@@ -134,7 +132,7 @@ function Reports() {
 
              {/*TABLE*/}
 
-            <div class="table-container">
+            <div className="table-container">
 
 
                 <table>
@@ -176,7 +174,7 @@ function Reports() {
 
             <div
                 id="emptyMessage"
-                class="empty-message">
+                className="empty-message">
 
                 No report data available.
 
@@ -191,8 +189,6 @@ function Reports() {
 
 
   </div>
-
-  </>
 
   )
 }

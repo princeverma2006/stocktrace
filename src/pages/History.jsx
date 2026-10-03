@@ -1,5 +1,3 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
 import Sidebar from "./sidebar"
 import '../css/history.css'
 const History = () => {
@@ -9,15 +7,15 @@ const History = () => {
       <Sidebar/>
       
   {/*main content*/}
-    <main class="main-content">
+    <main className="main-content">
         <h1>
             Activity History
         </h1>
-        <div class="history-card">
+        <div className="history-card">
 
             {/* SEARCH + DATE */}
-            <div class="filters">
-                <div class="search-box">
+            <div className="filters">
+                <div className="search-box">
                     <span>⌕</span>
                     <input
                         type="text"
@@ -45,7 +43,7 @@ const History = () => {
             </div>
 
             {/* TABLE */}
-            <div class="table-container">
+            <div className="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -69,7 +67,7 @@ const History = () => {
             {/* EMPTY MESSAGE */}
             <div
                 id="emptyMessage"
-                class="empty-message">
+                className="empty-message">
                 No activity found.
             </div>
 

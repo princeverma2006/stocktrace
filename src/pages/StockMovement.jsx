@@ -10,15 +10,15 @@ const StockMovement = () => {
       <Sidebar/>
 
       {/*main content*/}
-      <main class="main-content">
-        <h1 class="page-title">
+            <main className="main-content">
+                <h1 className="page-title">
             Stock Movement
         </h1>
-        <div class="movement-layout">
+        <div className="movement-layout">
           {/*left side*/}
-            <section class="movement-section">
+            <section className="movement-section">
               {/*stock tab*/}
-               <div class="movement-tabs">
+               <div className="movement-tabs">
 
                     <button
                         id="stockInBtn"
@@ -36,11 +36,11 @@ const StockMovement = () => {
                 </div>
 
                 {/*form*/}
-                <div class="form-card">
+                <div className="form-card">
                     <form id="movementForm">
 
                        {/*form*/}
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>
                                 Product
                             </label>
@@ -59,7 +59,7 @@ const StockMovement = () => {
 
                         {/*quantity*/}
 
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>
                                 Quantity
                             </label>
@@ -79,7 +79,7 @@ const StockMovement = () => {
                         </div>
 
                        {/*reason*/}
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>
                                 Reason
                             </label>
@@ -98,7 +98,7 @@ const StockMovement = () => {
 
                         {/*location*/}
 
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>
                                 Location
                             </label>
@@ -131,7 +131,7 @@ const StockMovement = () => {
 
                        {/*remark*/}
 
-                        <div class="form-group full-width">
+                        <div className="form-group full-width">
                             <label>
                                 Remarks (Optional)
                             </label>
@@ -145,10 +145,10 @@ const StockMovement = () => {
 
 
                         {/*submt*/}
-                        <div class="submit-area">
+                        <div className="submit-area">
                             <button
                                 type="submit"
-                                class="submit-btn">
+                                className="submit-btn">
                                 Submit
                             </button>
                         </div>
@@ -159,15 +159,15 @@ const StockMovement = () => {
 
 
             {/*right side*/}
-            <section class="transactions-section">
-                <div class="transactions-card">
+            <section className="transactions-section">
+                <div className="transactions-card">
                     <h2>
                         Recent Transactions
                     </h2>
 
                     <div
                         id="transactionsList"
-                        class="transactions-list">
+                        className="transactions-list">
 
                       {/*js will insert the transaction*/}
 

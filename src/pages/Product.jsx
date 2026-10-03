@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Sidebar from "./sidebar"
 import '../css/product.css'
 
@@ -7,7 +6,6 @@ const Product = () => {
 
   const navigate = useNavigate();
   return (
-    <>
     <div className='deshboard'>
     <Sidebar/>
     {/*main container*/}
@@ -96,7 +94,6 @@ const Product = () => {
 
     </main>
     </div>
-    </>
   )
 }
 

@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-import React from 'react'
 import Sidebar from './sidebar';
 import "../css/lowstock.css"
 
@@ -12,16 +10,16 @@ const LowStock = () => {
       
     {/*main content*/}
 
-    <main class="main-content">
+    <main className="main-content">
 
         <h1>
             Low Stock Alerts
         </h1>
 
 
-        <div class="content-card">
+        <div className="content-card">
 
-            <div class="table-container">
+            <div className="table-container">
 
                 <table>
 
@@ -47,7 +45,7 @@ const LowStock = () => {
            {/*no product message*/}
             <div
                 id="noLowStock"
-                class="no-products">
+                className="no-products">
                 All products have sufficient stock.
             </div>
         </div>
