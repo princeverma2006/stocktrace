@@ -1,6 +1,6 @@
 body {
-    background: #f5f7fb;
-    color: #171a23;
+  background: #0e141b;
+  color: #e7edf2;
 }
 
 
@@ -23,6 +23,7 @@ body {
 .main-content h1 {
     font-size: 32px;
     margin-bottom: 25px;
+    color: #aeb3b8;
 }
 
 
@@ -30,7 +31,8 @@ body {
    CONTENT CARD
   */
 .content-card {
-    background: white;
+    background: #171f28;
+    border: 1px solid #232f3b;
     border-radius: 10px;
     padding: 78px 16px 85px;
     box-shadow:

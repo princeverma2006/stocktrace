@@ -105,7 +105,12 @@ function Reports() {
 
 
 
-                <button
+               
+
+
+            </div>
+
+ <button
                     type="button"
                     id="generateBtn"
                     className="generate-btn"
@@ -124,11 +129,6 @@ function Reports() {
                     Export CSV
 
                 </button>
-
-
-            </div>
-
-
 
              {/*TABLE*/}
 
