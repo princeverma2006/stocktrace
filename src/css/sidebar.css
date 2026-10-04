@@ -4,9 +4,8 @@
     width: 250px;
     height: 100vh;
 
-    background: #172f53;
-
-    color: white;
+    background: #171f28;
+    color: #9cabb8;
 
     padding: 25px 15px;
 
@@ -72,7 +71,7 @@
 
     border-radius: 7px;
 
-    color: white;
+    color: #9cabb8;
 
     text-decoration: none;
 
@@ -107,7 +106,7 @@
 
     background: transparent;
 
-    color: white;
+    color: #9cabb8;
 
     text-align: left;
 

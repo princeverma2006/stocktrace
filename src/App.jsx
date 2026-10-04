@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Landingpage from './pages/LandingPage';
 import Loginpage from './pages/LoginPage';
-import Deshboard from './pages/deshboard';
+import Deshboard from './pages/Deshboard';
 import Product from './pages/Product';
 import AddProduct from './pages/AddProduct';
 import StockMovement from './pages/StockMovement';

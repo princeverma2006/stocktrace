@@ -30,27 +30,27 @@ function Deshboard() {
         <section className="stats">
             <div className="stat-card">
                 <div className="stat-title">
-                    <span className="green-icon">✓</span>
-                    Products
+                    <span className="green-icon">✓ Products</span>
+                    
                 </div>
                 <h2 id="totalProducts">0</h2>
-                <p>Total Products</p>
+                <p className='green-icon'>Total Products</p>
             </div>
 
             <div className="stat-card">
                 <div className="stat-title">
-                    <span className="green-icon">✓</span>
-                    Stock
+                    <span className='blue-icon'>✓ Stock</span>
+                   
                 </div>
                 <h2 id="totalItems">0</h2>
-                <p>Total Items</p>
+                <p className='blue-icon'>Total Items</p>
             </div>
 
 
             <div className="stat-card">
                 <div className="stat-title">
-                    <span className="red-icon">⚠</span>
-                    Low Stock
+                    <span >⚠ Low Stock</span>
+                    
                 </div>
                 <h2 id="lowStock">0</h2>
                 <p>Items</p>
@@ -58,8 +58,8 @@ function Deshboard() {
 
             <div className="stat-card">
                 <div className="stat-title">
-                    <span className="red-icon">⚠</span>
-                    Out of Stock
+                    <span >⚠ Out of Stock</span>
+                    
                 </div>
                 <h2 id="outOfStock">0</h2>
                 <p>Items</p>
