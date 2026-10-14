@@ -141,7 +141,17 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-    background: #fafbfc;
+    position: relative;
+    transform: translateX(3px);
+    background: linear-gradient(
+        90deg,
+        rgba(0, 225, 255, 0.09),
+        rgba(145, 70, 255, 0.10)
+    );
+    border-color: rgba(0, 225, 255, 0.30);
+    box-shadow:
+        -3px 0 12px rgba(0, 225, 255, 0.12),
+        0 0 14px rgba(145, 70, 255, 0.07);
 }
 
 
@@ -179,19 +189,20 @@ tbody tr:hover {
 
 /* ACTION BUTTON*/
 
-.action-btn {
-    width: 42px;
-    height: 42px;
+.product-panel .action-btn {
     border: none;
+    background: #8524d4;
+    color: white;
+    padding: 4px;
+    font-size: 17px;
+   border: 1px solid #be6eff;
     border-radius: 8px;
-    background: #f0f1f5;
-    font-size: 22px;
     cursor: pointer;
-    color: #172f53;
+    box-shadow: 0 3px 8px rgba(36,99,212,0.25);
 }
 
-.action-btn:hover {
-    background: #e2e5eb;
+.product-panel .action-btn:hover {
+    background: #8203b4;
 }
 
 

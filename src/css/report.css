@@ -115,50 +115,6 @@ body {
     color: #aeb3b8;
 }
 
-/*  BUTTONS   */
-
-.generate-btn {
-   height: 40px;
-   padding: 0 20px;
-   border: none;
-   border-radius: 7px;
-   background: #2864d7;
-   color: white;
-   font-size: 15px;
-   cursor: pointer;
-   margin-bottom: 1%;
-
-}
-
-
-.generate-btn:hover {
-   background: #1e53bb;
-
-}
-
-
-.export-btn {
-   height: 40px;
-   padding: 0 20px;
-   border: none;
-   border-radius: 7px;
-   background: #dc3e48;
-   color: white;
-   font-size: 15px;
-   cursor: pointer;
-   margin-left: 2%;
-   margin-bottom: 1%;
-
-}
-
-
-.export-btn:hover {
-   background: #c82f39;
-
-}
-
-
-
 /*  TABLE   */
 
 .table-container {
@@ -212,7 +168,17 @@ tbody tr:last-child td {
 
 
 tbody tr:hover {
-   background: #fafbfc;
+   position: relative;
+   transform: translateX(3px);
+   background: linear-gradient(
+      90deg,
+      rgba(0, 225, 255, 0.09),
+      rgba(145, 70, 255, 0.10)
+   );
+   border-color: rgba(0, 225, 255, 0.30);
+   box-shadow:
+      -3px 0 12px rgba(0, 225, 255, 0.12),
+      0 0 14px rgba(145, 70, 255, 0.07);
 
 }
 
@@ -250,7 +216,7 @@ tbody tr:hover {
 /*  EMPTY MESSAGE   */
 
 .empty-message {
-   display: none;
+   display: block;
    text-align: center;
    padding: 35px;
    color: #666;

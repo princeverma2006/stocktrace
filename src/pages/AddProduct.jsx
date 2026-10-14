@@ -1,175 +1,181 @@
-import { useNavigate } from 'react-router-dom'
-import Sidebar from './sidebar'
-import '../css/addproduct.css'
-
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Sidebar from './sidebar';
+import '../css/addproduct.css';
+import { apiRequest } from '../api';
 
 const AddProduct = () => {
-  const navigate= useNavigate();
-  return (
-    <div className='deshboard'>
-      <Sidebar/>
-      {/*main*/}
-      <main className='main-content'>
+    const navigate = useNavigate();
 
-        {/*page title*/}
-        <div className='page-title'>
-         <button
-                className="back-btn"
-                onClick={() => navigate("/products")}>
-                ←
-            </button>
-        <h1 id='formTitle'>Add new product</h1>
-        </div>
+    const [message, setMessage] = useState("");
+    const [saving, setSaving] = useState(false);
 
-        {/*form*/}
-        <div className='form-container'>
-          <form id='productForm'>
-            {/*prpduct name*/}
-            <div className='form-group'>
-              <label>Product name</label>
-              <input type="
-              text" id='productName'
-               placeholder="Enter product name" 
-               required />
-              </div>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-              {/*SKU stock keeping unit*/}
-               <div className="form-group">
+        if (saving) return;
 
-                    <label>
-                        SKU(stock keeping unit)
-                    </label>
+        const form = e.target;
 
-                    <input
-                        type="text"
-                        id="sku"
-                        placeholder="Enter SKU"
-                        required
-                    />
-              </div>
+        const product = {
+            product_name: form.productName.value.trim(),
+            sku: form.sku.value.trim(),
+            category: form.category.value,
+            price: form.price.value,
+            quantity: form.quantity.value,
+            minimum_stock: form.minStock.value,
+            location: form.location.value,
+            description: form.description.value.trim()
+        };
 
-              {/*category*/}
-               <div className="form-group">
+        try {
+            setSaving(true);
+            setMessage("");
 
-                    <label>
-                        Category
-                    </label>
+            const data = await apiRequest("/products", {
+                method: "POST",
+                body: JSON.stringify(product)
+            });
 
-                    <select
-                        id="category"
-                        required>
+            if (data.success) {
+                alert("Product added successfully!");
+                navigate("/products");
+            } else {
+                setMessage(data.message || "Unable to save product.");
+            }
+        } catch (error) {
+            setMessage(error.message || "Unable to connect to server.");
+        } finally {
+            setSaving(false);
+        }
+    };
 
-                        <option value="">
-                            Select Category
-                        </option>
+    return (
+        <div className="deshboard">
+            <Sidebar />
 
-                    </select>
-                </div>
-
-                {/*price*/}
-                 <div className="form-group">
-
-                    <label>
-                        Unit Price (₹)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="price"
-                        placeholder="Enter price"
-                        min="0"
-                        required
-                    />
-                </div>
-
-              {/*current stock*/}
-                <div className="form-group">
-
-                    <label>
-                        Current Stock
-                    </label>
-
-                    <input
-                        type="number"
-                        id="quantity"
-                        placeholder="Enter current stock"
-                        min="0"
-                        required
-                    />
-                    </div>
-
-                  {/*minimum stock*/}
-                   <div className="form-group">
-
-                    <label>
-                        Minimum Stock
-                    </label>
-
-                    <input
-                        type="number"
-                        id="minStock"
-                        placeholder="Enter minimum stock"
-                        min="0"
-                        required
-                    />
-                </div>
-
-                {/*location*/}
-                <div className="form-group">
-                    <label>
-                        Location
-                    </label>
-                    <select id="location">
-                        <option value="">
-                            Select location
-                        </option>
-                        <option value="Warehouse">
-                            Warehouse
-                        </option>
-                        <option value="Store">
-                            Store
-                        </option>
-                        <option value="Office">
-                            Office
-                        </option>
-                    </select>
-                </div>
-
-                {/*discription*/}
-                 <div className="form-group description">
-                    <label>
-                        Description
-                    </label>
-                    <textarea
-                        id="description"
-                        placeholder="Enter product description">
-                    </textarea>
-                </div>
-
-                  {/*buttons*/}
-                 <div className="form-buttons">
+            <main className="main-content">
+                <div className="page-title">
                     <button
                         type="button"
-                        className="cancel-btn"
-                        onClick={()=>navigate("/products")}>
-                        Cancel
+                        className="back-btn"
+                        onClick={() => navigate("/products")}
+                    >
+                        ←
                     </button>
 
-                     <div className="form-buttons">
-
-                    <button
-                        type="submit"
-                        className="save-btn">
-                        Save Product
-                    </button>
+                    <h1>Add new product</h1>
                 </div>
 
-            </div>
-          </form>
+                <div className="form-container">
+                    <form id="productForm" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>Product name</label>
+                            <input
+                                type="text"
+                                name="productName"
+                                placeholder="Enter product name"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>SKU (stock keeping unit)</label>
+                            <input
+                                type="text"
+                                name="sku"
+                                placeholder="Enter SKU"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Category</label>
+                            <select name="category" required defaultValue="">
+                                <option value="" disabled>Select Category</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Unit Price (₹)</label>
+                            <input
+                                type="number"
+                                name="price"
+                                placeholder="Enter price"
+                                min="0"
+                                step="0.01"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Current Stock</label>
+                            <input
+                                type="number"
+                                name="quantity"
+                                placeholder="Enter current stock"
+                                min="0"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Minimum Stock</label>
+                            <input
+                                type="number"
+                                name="minStock"
+                                placeholder="Enter minimum stock"
+                                min="0"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Location</label>
+                            <select name="location" defaultValue="">
+                                <option value="">Select location</option>
+                                <option value="Warehouse">Warehouse</option>
+                                <option value="Store">Store</option>
+                                <option value="Office">Office</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group description">
+                            <label>Description</label>
+                            <textarea
+                                name="description"
+                                placeholder="Enter product description"
+                            />
+                        </div>
+
+                        {message && <p>{message}</p>}
+
+                        <div className="form-buttons">
+                            <button
+                                type="button"
+                                className="cancel-btn"
+                                onClick={() => navigate("/products")}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                className="save-btn"
+                                disabled={saving}
+                            >
+                                {saving ? "Saving..." : "Save Product"}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
-      </main>
-    </div>
-  )
-}
+    );
+};
 
 export default AddProduct;
