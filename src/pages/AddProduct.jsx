@@ -139,8 +139,7 @@ const AddProduct = () => {
                             <select name="location" defaultValue="">
                                 <option value="">Select location</option>
                                 <option value="Warehouse">Warehouse</option>
-                                <option value="Store">Store</option>
-                                <option value="Office">Office</option>
+                               
                             </select>
                         </div>
 

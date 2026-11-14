@@ -154,16 +154,34 @@ body {
 
 
 .panel {  
-  background: #7b12b85d;
-  border: 1px solid #9214db;
+ background: linear-gradient(
+        135deg,
+        #101426,
+        #15152b,
+        #101b30
+    );
+    border: 1px solid rgba(0, 225, 255, 0.25);
+    box-shadow:
+        0 0 12px rgba(0, 225, 255, 0.08),
+        0 0 25px rgba(150, 60, 255, 0.08),
+        inset 0 0 20px rgba(0, 225, 255, 0.025);
   border-radius: 9px;
   padding: 16px;
   box-shadow:      0 2px 5px rgba(0, 0, 0, 0.03);
 }
 
 #low-stock-panel{
-   background: #332622;
-    border: 1px solid #754A3D;
+   background: linear-gradient(
+        135deg,
+        #101426,
+        #15152b,
+        #101b30
+    );
+    border: 1px solid rgba(0, 225, 255, 0.25);
+    box-shadow:
+        0 0 12px rgba(0, 225, 255, 0.08),
+        0 0 25px rgba(150, 60, 255, 0.08),
+        inset 0 0 20px rgba(0, 225, 255, 0.025);
     color: #F39A32;
 }
 

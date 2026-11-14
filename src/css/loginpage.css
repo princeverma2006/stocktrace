@@ -97,6 +97,16 @@ body {
   margin-bottom: 1.25rem;
 }
 
+.input-group.has-error {
+  margin-bottom: 0.35rem;
+}
+
+.input-error {
+  color: #ff7b7b;
+  font-size: 13px;
+  margin: 0 0 1.25rem;
+}
+
 .input-group input {
   width: 100%;
   color: #e7edf2;
@@ -132,32 +142,6 @@ body {
   color: #3a3e44;
   display: flex;
   align-items: center;
-}
-
-/* Remember me & Forgot password */
-.forget-password {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  font-size: 14px;
-}
-
-.remember {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #9cabb8;
-  cursor: pointer;
-}
-
-.forget-password a {
-  color: #3b82f6;
-  text-decoration: none;
-}
-
-.forget-password a:hover {
-  text-decoration: underline;
 }
 
 /* Gradient Login Button */
@@ -294,21 +278,6 @@ body {
         font-size: 16px;
 
         margin-bottom: 12px;
-    }
-
-
-    .forget-password {
-        margin-bottom: 18px;
-    }
-
-
-    .remember {
-        font-size: 14px;
-    }
-
-
-    .forget-password a {
-        font-size: 14px;
     }
 
 

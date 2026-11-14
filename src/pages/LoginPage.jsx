@@ -10,12 +10,21 @@ function Loginpage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const emailHasSymbols = email.length > 0 && !/^[a-zA-Z0-9]+$/.test(email);
+  const passwordHasInvalidLength =
+    passwordTouched && (password.length < 4 || password.length > 8);
 
 const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (emailHasSymbols || passwordHasInvalidLength) {
+        return;
+    }
+
+    setLoading(true);
 
     try {
         const data = await apiRequest("/login", {
@@ -28,13 +37,6 @@ const handleLogin = async (e) => {
 
         if (data.success) {
             localStorage.setItem("isLoggedIn", "true");
-
-            if (rememberMe) {
-                localStorage.setItem("rememberMe", "true");
-            } else {
-                localStorage.removeItem("rememberMe");
-            }
-
             navigate("/deshboard");
         } else {
             alert("Wrong email or password!");
@@ -42,6 +44,8 @@ const handleLogin = async (e) => {
     } catch (error) {
         console.error("Login error:", error);
         alert("Server error. Please try again later.");
+    } finally {
+        setLoading(false);
     }
 };
 
@@ -64,7 +68,7 @@ const handleLogin = async (e) => {
 
           <form onSubmit={handleLogin} className="login-credential">
             {/* Email Input Field */}
-            <div className="input-group">
+            <div className={`input-group${emailHasSymbols ? " has-error" : ""}`}>
               <span className="input-icon">
                 <svg
                   width="18"
@@ -87,12 +91,21 @@ const handleLogin = async (e) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="username"
+                aria-invalid={emailHasSymbols}
+                aria-describedby={emailHasSymbols ? "email-error" : undefined}
                 required
               />
             </div>
+            {emailHasSymbols && (
+              <p className="input-error" id="email-error" role="alert">
+                Only letters and numbers are allowed.
+              </p>
+            )}
 
             {/* Password Input Field */}
-            <div className="input-group">
+            <div
+              className={`input-group${passwordHasInvalidLength ? " has-error" : ""}`}
+            >
               <span className="input-icon">
                 <svg
                   width="18"
@@ -113,8 +126,15 @@ const handleLogin = async (e) => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordTouched(true);
+                }}
                 autoComplete="current-password"
+                aria-invalid={passwordHasInvalidLength}
+                aria-describedby={
+                  passwordHasInvalidLength ? "password-error" : undefined
+                }
                 required
               />
 
@@ -134,28 +154,11 @@ const handleLogin = async (e) => {
                 {showPassword ? "Hide" : "Show"}
               </span>
             </div>
-
-            {/* Remember me & Forgot Password */}
-            <div className="forget-password">
-              <label className="remember">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
-                <span>Remember me</span>
-              </label>
-
-              <a
-                href="#forgot"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert("Forgot password clicked");
-                }}
-              >
-                Forgot password?
-              </a>
-            </div>
+            {passwordHasInvalidLength && (
+              <p className="input-error" id="password-error" role="alert">
+                Password length must be 4-8 letters.
+              </p>
+            )}
 
             {/* Sign In Button */}
             <button
@@ -179,4 +182,3 @@ const handleLogin = async (e) => {
 }
 
 export default Loginpage;
-

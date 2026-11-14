@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: "backend/.env" });
 
 const app = express();
+const WAREHOUSE_CAPACITY = 5000;
 
 app.use(
     cors({
@@ -169,6 +170,150 @@ app.post("/products", async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Unable to save product. Check your database columns."
+        });
+    }
+});
+
+// Update an existing product
+app.put("/products/:id", async (req, res) => {
+    const productId = Number(req.params.id);
+    const {
+        product_name,
+        sku,
+        category,
+        price,
+        quantity,
+        minimum_stock
+    } = req.body;
+
+    const productPrice = Number(price);
+    const productQuantity = Number(quantity);
+    const minimumStock = Number(minimum_stock);
+
+    if (
+        !Number.isSafeInteger(productId) ||
+        productId <= 0 ||
+        typeof product_name !== "string" ||
+        !product_name.trim() ||
+        typeof sku !== "string" ||
+        !sku.trim() ||
+        typeof category !== "string" ||
+        !category.trim() ||
+        price == null ||
+        price === "" ||
+        !Number.isFinite(productPrice) ||
+        productPrice < 0 ||
+        quantity == null ||
+        quantity === "" ||
+        !Number.isSafeInteger(productQuantity) ||
+        productQuantity < 0 ||
+        minimum_stock == null ||
+        minimum_stock === "" ||
+        !Number.isSafeInteger(minimumStock) ||
+        minimumStock < 0
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "Please provide valid product details"
+        });
+    }
+
+    try {
+        const [result] = await db.execute(
+            `UPDATE products
+             SET product_name = ?, sku = ?, category = ?,
+                 price = ?, quantity = ?, minimum_stock = ?
+             WHERE id = ?`,
+            [
+                product_name.trim(),
+                sku.trim(),
+                category.trim(),
+                productPrice,
+                productQuantity,
+                minimumStock,
+                productId
+            ]
+        );
+
+        if (result.affectedRows === 0) {
+            const [rows] = await db.execute(
+                "SELECT id FROM products WHERE id = ?",
+                [productId]
+            );
+
+            if (rows.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Product not found"
+                });
+            }
+        }
+
+        res.json({
+            success: true,
+            message: "Product updated successfully"
+        });
+    } catch (error) {
+        console.error("Update product error:", error.message);
+
+        if (error.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({
+                success: false,
+                message: "This SKU already exists"
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Unable to update product"
+        });
+    }
+});
+
+// Delete a product that is not referenced by stock movement history
+app.delete("/products/:id", async (req, res) => {
+    const productId = Number(req.params.id);
+
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid product ID"
+        });
+    }
+
+    try {
+        const [result] = await db.execute(
+            "DELETE FROM products WHERE id = ?",
+            [productId]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Product deleted successfully"
+        });
+    } catch (error) {
+        console.error("Delete product error:", error.message);
+
+        if (
+            error.code === "ER_ROW_IS_REFERENCED" ||
+            error.code === "ER_ROW_IS_REFERENCED_2"
+        ) {
+            return res.status(409).json({
+                success: false,
+                message: "This product has stock movement history and cannot be deleted."
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Unable to delete product"
         });
     }
 });
@@ -345,13 +490,16 @@ app.post("/stock-movements", async (req, res) => {
         await db.beginTransaction();
         transactionStarted = true;
 
-        // Get and lock the selected product
+        // Lock inventory rows so concurrent stock-ins cannot exceed capacity.
         const [rows] = await db.execute(
-            "SELECT id, quantity FROM products WHERE id = ? FOR UPDATE",
-            [product_id]
+            "SELECT id, quantity FROM products ORDER BY id FOR UPDATE"
         );
 
-        if (rows.length === 0) {
+        const selectedProduct = rows.find(
+            product => String(product.id) === String(product_id)
+        );
+
+        if (!selectedProduct) {
             await db.rollback();
             transactionStarted = false;
 
@@ -361,7 +509,24 @@ app.post("/stock-movements", async (req, res) => {
             });
         }
 
-        const previousQuantity = Number(rows[0].quantity);
+        const previousQuantity = Number(selectedProduct.quantity);
+        const totalWarehouseStock = rows.reduce(
+            (total, product) => total + Number(product.quantity),
+            0
+        );
+
+        if (
+            movement_type === "in" &&
+            totalWarehouseStock + amount > WAREHOUSE_CAPACITY
+        ) {
+            await db.rollback();
+            transactionStarted = false;
+
+            return res.status(400).json({
+                success: false,
+                message: `Overflow: warehouse capacity is ${WAREHOUSE_CAPACITY} units, with only ${Math.max(WAREHOUSE_CAPACITY - totalWarehouseStock, 0)} units remaining`
+            });
+        }
 
         const newQuantity = movement_type === "in"
             ? previousQuantity + amount

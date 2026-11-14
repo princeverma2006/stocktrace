@@ -4,6 +4,7 @@ import "../css/stockmovement.css";
 import { apiRequest } from '../api';
 
 const StockMovement = () => {
+    const warehouseCapacity = 5000;
     const [movementType, setMovementType] = useState('in');
     const [products, setProducts] = useState([]);
     const [movements, setMovements] = useState([]);
@@ -35,6 +36,19 @@ const StockMovement = () => {
     const selectedProduct = products.find(
         product => String(product.id) === productId
     );
+    const totalWarehouseStock = products.reduce(
+        (total, product) => total + Number(product.quantity || 0),
+        0
+    );
+    const remainingWarehouseCapacity = warehouseCapacity - totalWarehouseStock;
+    const enteredQuantity = Number(quantity);
+    const stockInOverflow = movementType === 'in' &&
+        quantity !== '' &&
+        enteredQuantity > remainingWarehouseCapacity;
+    const stockOutUnavailable = movementType === 'out' &&
+        quantity !== '' &&
+        selectedProduct &&
+        enteredQuantity > Number(selectedProduct.quantity);
 
     const reasons = movementType === 'in'
         ? ['Purchase', 'Customer Return', 'Stock Correction', 'Other']
@@ -43,7 +57,7 @@ const StockMovement = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (loading) return;
+        if (loading || stockInOverflow || stockOutUnavailable) return;
 
         setLoading(true);
         setMessage('');
@@ -151,8 +165,41 @@ const StockMovement = () => {
                                         placeholder="Enter quantity"
                                         value={quantity}
                                         onChange={e => setQuantity(e.target.value)}
+                                        aria-invalid={stockInOverflow || stockOutUnavailable}
+                                        aria-describedby={
+                                            movementType === 'in'
+                                                ? 'warehouse-capacity-info'
+                                                : selectedProduct
+                                                    ? 'available-stock-info'
+                                                    : undefined
+                                        }
                                         required
                                     />
+                                    {movementType === 'in' ? (
+                                        <small id="warehouse-capacity-info">
+                                            Warehouse stock capacity: {warehouseCapacity} units
+                                            <br />
+                                            Available capacity: {remainingWarehouseCapacity} units
+                                            {' '}({warehouseCapacity} - {totalWarehouseStock} current units)
+                                        </small>
+                                    ) : (
+                                        selectedProduct && (
+                                            <small id="available-stock-info">
+                                                Available quantity: {selectedProduct.quantity} units
+                                            </small>
+                                        )
+                                    )}
+                                    {stockInOverflow && (
+                                        <small className="movement-error" role="alert">
+                                            Overflow: only {Math.max(remainingWarehouseCapacity, 0)} units of
+                                            warehouse capacity remain.
+                                        </small>
+                                    )}
+                                    {stockOutUnavailable && (
+                                        <small className="movement-error" role="alert">
+                                            Requested quantity is not available. Only {selectedProduct.quantity} units are in stock.
+                                        </small>
+                                    )}
                                 </div>
 
                                 <div className="form-group">
@@ -180,8 +227,7 @@ const StockMovement = () => {
                                     >
                                         <option value="">Select Location</option>
                                         <option value="Warehouse">Warehouse</option>
-                                        <option value="Store">Store</option>
-                                        <option value="Office">Office</option>
+                                        
                                     </select>
                                 </div>
 

@@ -12,6 +12,10 @@ function Reports() {
     const [reportType, setReportType] = useState('summary');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const [appliedDates, setAppliedDates] = useState({
+        fromDate: '',
+        toDate: ''
+    });
     const [report, setReport] = useState([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('No report data available.');
@@ -21,7 +25,11 @@ function Reports() {
 
         const loadReport = async () => {
             try {
-                const data = await fetchReport(reportType, fromDate, toDate);
+                const data = await fetchReport(
+                    reportType,
+                    appliedDates.fromDate,
+                    appliedDates.toDate
+                );
 
                 if (!data.success) {
                     throw new Error(data.message || 'Unable to generate report.');
@@ -42,7 +50,11 @@ function Reports() {
             }
         };
 
-        if (fromDate && toDate && fromDate > toDate) {
+        if (
+            appliedDates.fromDate &&
+            appliedDates.toDate &&
+            appliedDates.fromDate > appliedDates.toDate
+        ) {
             return () => {
                 active = false;
             };
@@ -53,10 +65,24 @@ function Reports() {
         return () => {
             active = false;
         };
-    }, [reportType, fromDate, toDate]);
+    }, [reportType, appliedDates]);
 
     const invalidDateRange = fromDate && toDate && fromDate > toDate;
     const visibleReport = invalidDateRange ? [] : report;
+    const applyDateRange = (event) => {
+        event.preventDefault();
+        if (invalidDateRange) return;
+
+        setLoading(true);
+        setAppliedDates({ fromDate, toDate });
+    };
+
+    const clearDateRange = () => {
+        setFromDate('');
+        setToDate('');
+        setLoading(true);
+        setAppliedDates({ fromDate: '', toDate: '' });
+    };
 
     return (
         <div className="deshboard">
@@ -72,7 +98,10 @@ function Reports() {
                         <select
                             id="reportType"
                             value={reportType}
-                            onChange={e => setReportType(e.target.value)}
+                            onChange={e => {
+                                setLoading(true);
+                                setReportType(e.target.value);
+                            }}
                         >
                             <option value="summary">Report Summary</option>
                             <option value="movement">Stock Movement</option>
@@ -80,7 +109,7 @@ function Reports() {
                         </select>
                     </div>
 
-                    <div className="filter-row">
+                    <form className="filter-row" onSubmit={applyDateRange}>
                         <div className="filter-item">
                             <label>Report Type</label>
 
@@ -92,7 +121,7 @@ function Reports() {
                         </div>
 
                         <div className="filter-item">
-                            <label>From Date</label>
+                            <label htmlFor="fromDate">From Date</label>
 
                             <input
                                 type="date"
@@ -104,7 +133,7 @@ function Reports() {
                         </div>
 
                         <div className="filter-item">
-                            <label>To Date</label>
+                            <label htmlFor="toDate">To Date</label>
 
                             <input
                                 type="date"
@@ -114,7 +143,16 @@ function Reports() {
                                 onChange={e => setToDate(e.target.value)}
                             />
                         </div>
-                    </div>
+
+                        <div className="date-filter-actions">
+                            <button type="submit" disabled={Boolean(invalidDateRange)}>
+                                Apply Dates
+                            </button>
+                            <button type="button" onClick={clearDateRange}>
+                                Clear Dates
+                            </button>
+                        </div>
+                    </form>
 
                     <div className="table-container">
                         <table>

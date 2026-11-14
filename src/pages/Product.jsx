@@ -15,6 +15,11 @@ const Product = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+
+    const [editingId, setEditingId] = useState(null);
+    const [editForm, setEditForm] = useState({});
+    const [saving, setSaving] = useState(false);
+
     // Fetch products from MySQL through the backend
     useEffect(() => {
         const fetchProducts = async () => {
@@ -69,6 +74,78 @@ const Product = () => {
         return matchesSearch && matchesCategory && matchesStatus;
     });
 
+
+const handleEdit = (product) => {
+    setEditingId(product.id);
+    setEditForm({
+        ...product,
+        product_name: product.product_name || "",
+        sku: product.sku || "",
+        category: product.category || "",
+        quantity: product.quantity ?? 0,
+        price: product.price ?? 0,
+        minimum_stock: product.minimum_stock ?? 0
+    });
+    setError("");
+};
+
+const handleEditChange = (e) => {
+    const { name, value } = e.target;
+
+    setEditForm((prev) => ({
+        ...prev,
+        [name]: value
+    }));
+};
+
+const handleCancel = () => {
+    setEditingId(null);
+    setEditForm({});
+    setError("");
+};
+
+const handleSave = async () => {
+    if (editingId === null || saving) return;
+
+    setSaving(true);
+    setError("");
+
+    try {
+        const updatedProduct = {
+            ...editForm,
+            product_name: editForm.product_name.trim(),
+            sku: editForm.sku.trim(),
+            category: editForm.category.trim(),
+            price: Number(editForm.price),
+            quantity: Number(editForm.quantity),
+            minimum_stock: Number(editForm.minimum_stock)
+        };
+
+        const data = await apiRequest(`/products/${editingId}`, {
+            method: "PUT",
+            body: JSON.stringify(updatedProduct)
+        });
+
+        if (data.success) {
+            setProducts((prev) =>
+                prev.map((p) =>
+                    p.id === editingId ? { ...p, ...updatedProduct } : p
+                )
+            );
+
+            setEditingId(null);
+            setEditForm({});
+            alert("Product updated successfully.");
+        } else {
+            setError(data.message || "Unable to update product.");
+        }
+    } catch (err) {
+        setError(err.message || "Unable to update product.");
+    } finally {
+        setSaving(false);
+    }
+};
+
     return (
         <div className="deshboard">
             <Sidebar />
@@ -89,6 +166,12 @@ const Product = () => {
 
                 {/* Product panel */}
                 <div className="product-panel">
+                    {error && (
+                        <p className="product-error" role="alert">
+                            {error}
+                        </p>
+                    )}
+
                     {/* Search and filters */}
                     <div className="filters">
                         <div className="search-box">
@@ -140,57 +223,120 @@ const Product = () => {
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                {loading ? (
-                                    <tr>
-                                        <td colSpan="6">Loading products...</td>
-                                    </tr>
-                                ) : error ? (
-                                    <tr>
-                                        <td colSpan="6">{error}</td>
-                                    </tr>
-                                ) : filteredProducts.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="6">No products found.</td>
-                                    </tr>
-                                ) : (
-                                    filteredProducts.map((product) => {
-                                        const productStatus = getStatus(product);
 
-                                        return (
-                                            <tr key={product.id}>
-                                                <td>{product.sku}</td>
-                                                <td>{product.product_name}</td>
-                                                <td>{product.category}</td>
-                                                <td>{product.quantity}</td>
+<tbody>
+    {loading ? (
+        <tr>
+            <td colSpan="6">Loading products...</td>
+        </tr>
+    ) : filteredProducts.length === 0 ? (
+        <tr>
+            <td colSpan="6">No products found.</td>
+        </tr>
+    ) : (
+        filteredProducts.map((product) => {
+            const isEditing = editingId === product.id;
+            const productStatus = getStatus(
+                isEditing ? editForm : product
+            );
 
-                                                <td>
-                                                    <span className={`status ${productStatus}`}>
-                                                        {productStatus === "out"
-                                                            ? "Out of stock"
-                                                            : productStatus === "low"
-                                                            ? "Low"
-                                                            : "Good"}
-                                                    </span>
-                                                </td>
+            return (
+                <tr key={product.id}>
+                    <td>
+                        {isEditing ? (
+                            <input
+                                name="sku"
+                                value={editForm.sku}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        ) : product.sku}
+                    </td>
 
-                                                <td>
-                                                    <button className="action-btn"
-                                                        type="button"
-                                                        onClick={() =>
-                                                            navigate("/addproduct", {
-                                                                state: { product }
-                                                            })
-                                                        }
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                )}
-                            </tbody>
+                    <td>
+                        {isEditing ? (
+                            <input
+                                name="product_name"
+                                value={editForm.product_name}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        ) : product.product_name}
+                    </td>
+
+                    <td>
+                        {isEditing ? (
+                            <input
+                                name="category"
+                                value={editForm.category}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        ) : product.category}
+                    </td>
+
+                    <td>
+                        {isEditing ? (
+                            <input
+                                type="number"
+                                name="quantity"
+                                min="0"
+                                step="1"
+                                value={editForm.quantity}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        ) : product.quantity}
+                    </td>
+
+                    <td>
+                        <span className={`status ${productStatus}`}>
+                            {productStatus === "out"
+                                ? "Out of stock"
+                                : productStatus === "low"
+                                ? "Low"
+                                : "Good"}
+                        </span>
+                    </td>
+
+                    <td>
+                        {isEditing ? (
+                            <div className="edit-actions">
+                                <button
+                                    type="button"
+                                    className="action-btn"
+                                    disabled={saving}
+                                    onClick={handleSave}
+                                >
+                                    {saving ? "Saving..." : "Save"}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="action-btn"
+                                    onClick={handleCancel}
+                                    disabled={saving}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                type="button"
+                                className="action-btn"
+                                onClick={() => handleEdit(product)}
+                                disabled={editingId !== null}
+                            >
+                                Edit
+                            </button>
+                        )}
+                    </td>
+                </tr>
+            );
+        })
+    )}
+</tbody>
+
                         </table>
                     </div>
 

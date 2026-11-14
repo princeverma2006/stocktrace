@@ -83,7 +83,7 @@ const LowStock = () => {
                                             <td>
                                                 <button className='restock-btn'
                                                     onClick={() =>
-                                                        navigate("/addproduct", {
+                                                        navigate("/stock-movement", {
                                                             state: { product }
                                                         })
                                                     }

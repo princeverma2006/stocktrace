@@ -206,6 +206,24 @@ tbody tr:hover {
 }
 
 
+.edit-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.table-container td input {
+    width: 100%;
+    min-width: 75px;
+    box-sizing: border-box;
+    padding: 7px;
+}
+
+.product-error {
+    color: #ff8d8d;
+    margin: 0 0 15px;
+}
+
 
 /* TABLE FOOTER */
 
