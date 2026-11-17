@@ -12,6 +12,7 @@ function Reports() {
     const [reportType, setReportType] = useState('summary');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const [productSearch, setProductSearch] = useState('');
     const [appliedDates, setAppliedDates] = useState({
         fromDate: '',
         toDate: ''
@@ -68,7 +69,13 @@ function Reports() {
     }, [reportType, appliedDates]);
 
     const invalidDateRange = fromDate && toDate && fromDate > toDate;
-    const visibleReport = invalidDateRange ? [] : report;
+    const searchTerm = productSearch.trim().toLowerCase();
+    const visibleReport = invalidDateRange
+        ? []
+        : report.filter(item =>
+            String(item.product || '').toLowerCase().includes(searchTerm) ||
+            String(item.sku || '').toLowerCase().includes(searchTerm)
+        );
     const applyDateRange = (event) => {
         event.preventDefault();
         if (invalidDateRange) return;
@@ -154,6 +161,17 @@ function Reports() {
                         </div>
                     </form>
 
+                    <div className="report-search">
+                        <label htmlFor="productSearch">Search Products</label>
+                        <input
+                            type="search"
+                            id="productSearch"
+                            placeholder="Name or SKU"
+                            value={productSearch}
+                            onChange={e => setProductSearch(e.target.value)}
+                        />
+                    </div>
+
                     <div className="table-container">
                         <table>
                             <thead>
@@ -198,7 +216,9 @@ function Reports() {
 
                     {(!loading && !invalidDateRange && visibleReport.length === 0) && (
                         <div id="emptyMessage" className="empty-message">
-                            {message}
+                            {report.length > 0
+                                ? 'No products match your search.'
+                                : message}
                         </div>
                     )}
 

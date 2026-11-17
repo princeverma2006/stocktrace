@@ -108,11 +108,12 @@ body{
 .table-container {
     border: 1px solid #232f3b;
     border-radius: 10px;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
+    min-width: 900px;
     border-collapse: collapse;
 }
 
@@ -332,9 +333,5 @@ display: flex;
         overflow-x: auto;
     }
 
-
-    table {
-        min-width: 800px;
-    }
 
 }

@@ -5,6 +5,12 @@ import Sidebar from "./sidebar";
 import "../css/product.css";
 import { apiRequest } from "../api";
 
+const formatPrice = (price) =>
+    Number(price ?? 0).toLocaleString("en-IN", {
+        style: "currency",
+        currency: "INR"
+    });
+
 const Product = () => {
     const navigate = useNavigate();
 
@@ -107,6 +113,12 @@ const handleCancel = () => {
 const handleSave = async () => {
     if (editingId === null || saving) return;
 
+    const price = Number(editForm.price);
+    if (editForm.price === "" || !Number.isFinite(price) || price < 0) {
+        setError("Enter a valid non-negative price.");
+        return;
+    }
+
     setSaving(true);
     setError("");
 
@@ -116,7 +128,7 @@ const handleSave = async () => {
             product_name: editForm.product_name.trim(),
             sku: editForm.sku.trim(),
             category: editForm.category.trim(),
-            price: Number(editForm.price),
+            price,
             quantity: Number(editForm.quantity),
             minimum_stock: Number(editForm.minimum_stock)
         };
@@ -217,6 +229,7 @@ const handleSave = async () => {
                                     <th>SKU</th>
                                     <th>Product name</th>
                                     <th>Category</th>
+                                    <th>Unit Price</th>
                                     <th>Stock</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -227,11 +240,11 @@ const handleSave = async () => {
 <tbody>
     {loading ? (
         <tr>
-            <td colSpan="6">Loading products...</td>
+            <td colSpan="7">Loading products...</td>
         </tr>
     ) : filteredProducts.length === 0 ? (
         <tr>
-            <td colSpan="6">No products found.</td>
+            <td colSpan="7">No products found.</td>
         </tr>
     ) : (
         filteredProducts.map((product) => {
@@ -273,6 +286,20 @@ const handleSave = async () => {
                                 required
                             />
                         ) : product.category}
+                    </td>
+
+                    <td>
+                        {isEditing ? (
+                            <input
+                                type="number"
+                                name="price"
+                                min="0"
+                                step="0.01"
+                                value={editForm.price}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        ) : formatPrice(product.price)}
                     </td>
 
                     <td>
@@ -346,11 +373,7 @@ const handleSave = async () => {
                             Showing {filteredProducts.length} of {products.length} entries
                         </span>
 
-                        <div className="pagination">
-                            <button disabled>Previous</button>
-                            <button className="current">1</button>
-                            <button disabled>Next</button>
-                        </div>
+                        
                     </div>
                 </div>
             </main>
